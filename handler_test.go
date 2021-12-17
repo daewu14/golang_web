@@ -20,3 +20,27 @@ func TestHandler(t *testing.T) {
 		panic(err)
 	}
 }
+
+func TestServeMux(t *testing.T) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
+		fmt.Fprint(writer, "Halo Selamat Datang")
+	})
+	mux.HandleFunc("/daewu/", func(writer http.ResponseWriter, request *http.Request) {
+		fmt.Fprint(writer, "Halo Selamat Datang Daewu")
+	})
+	mux.HandleFunc("/daewu/gus/", func(writer http.ResponseWriter, request *http.Request) {
+		fmt.Fprint(writer, "Halo Selamat Datang Daewu Gus")
+	})
+	mux.HandleFunc("/daewu/gus/bintara", func(writer http.ResponseWriter, request *http.Request) {
+		fmt.Fprint(writer, "Halo Selamat Datang Daewu Gus Bintara Putra")
+	})
+	server := http.Server{
+		Addr: "localhost:8080",
+		Handler: mux,
+	}
+	err := server.ListenAndServe()
+	if err != nil {
+		panic(err)
+	}
+}
